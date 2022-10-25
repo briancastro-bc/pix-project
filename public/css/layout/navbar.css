@@ -1,0 +1,53 @@
+
+.navbar {
+  width: 100vw;
+  height: 90px;
+  position: sticky;
+  top: 0;
+  background-color: transparent;
+  overflow: hidden;
+  z-index: 10;
+  border-bottom: 1px solid #00000010;
+  border-radius: 0 0 15px 15px;
+}
+
+.navbar .navbar__container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: .85rem 2rem;
+  margin: 0 auto;
+}
+
+.navbar .navbar__container > div {
+  height: 100%;
+  width: 100%;
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .navbar__container .navbar__container__left {
+  justify-content: flex-start;
+  flex-basis: 10%;
+}
+
+.navbar .navbar__container .navbar__container__left .logo {
+  height: 60px;
+  width: auto;
+}
+
+.navbar .navbar__container .navbar__container__center {
+  flex-basis: 80%;
+  justify-content: center;
+}
+
+.navbar .navbar__container .navbar__container__right {
+  flex-basis: 10%;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.navbar .navbar__container .navbar__container__right .link {
+}
