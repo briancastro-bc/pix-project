@@ -1,12 +1,12 @@
 
-.signin {
+.signup {
   height: 100vh;
   width: 100%;
   display: block;
   overflow: hidden;
 }
 
-.signin .signin__container {
+.signup .signup__container {
   height: 100%;
   width: 100%;
   display: grid;
@@ -15,7 +15,7 @@
   align-items: center;
 }
 
-.signin .signin__container .col {
+.signup .signup__container .col {
   position: relative;
   height: 100%;
   display: flex;
@@ -24,7 +24,7 @@
   justify-content: center;
 }
 
-.signin .signin__container .col__right .signin-card {
+.signup .signup__container .col__left .signup-card {
   width: 90%;
   height: auto;
   display: flex;
@@ -39,7 +39,7 @@
   box-shadow: 0px 0px 20px -10px rgba(0,0,0,0.62);
 }
 
-.signin-card .header {
+.signup-card .header {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@
   background-color: var(--primary-color);
 }
 
-.signin-card .body {
+.signup-card .body {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -71,7 +71,7 @@
   border-bottom: 1px solid #00000010;
 }
 
-.signin-card .footer {
+.signup-card .footer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,11 +79,7 @@
   padding: .85rem 0;
 }
 
-.signin .signin__container .col__left > .illustration {
-  max-height: 700px;
-}
-
-.signin .signin__container > .col__left::before {
+.signup .signup__container > .col__right::before {
   position: absolute;
   content: "";
   width: 100%;

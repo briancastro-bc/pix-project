@@ -18,15 +18,16 @@ function delete($route, $path_to_include){
   if( $_SERVER['REQUEST_METHOD'] == 'DELETE' ){ route($route, $path_to_include); }    
 }
 function any($route, $path_to_include){ route($route, $path_to_include); }
-function route($route, $path_to_include){
-  
 
-  
+function route($route, $path_to_include){
+
   $ROOT = $_SERVER['DOCUMENT_ROOT'];
+
   if($route == "/404"){
     include_once("$ROOT/$path_to_include");
     exit();
-  }  
+  }
+
   $request_url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
   $request_url = rtrim($request_url, '/');
   $request_url = strtok($request_url, '?');
@@ -59,7 +60,11 @@ function route($route, $path_to_include){
   include_once("$ROOT/$path_to_include");
   exit();
 }
-function out($text){echo htmlspecialchars($text);}
+
+function out($text){
+  echo htmlspecialchars($text);
+}
+
 function set_csrf(){
   if( ! isset($_SESSION["csrf"]) ){ $_SESSION["csrf"] = bin2hex(random_bytes(50)); }
   echo '<input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">';
