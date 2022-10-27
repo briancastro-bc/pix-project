@@ -75,7 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           }
           break;
         case 'delete':
-          $stmt->prepare("DELETE FROM products WHERE id=?");
+          $stmt->prepare("DELETE FROM user_products WHERE productId = ?");
+          $stmt->bind_param("i", $id);
+          $stmt->execute();
+          $stmt->prepare("DELETE FROM products WHERE id = ?");
           $stmt->bind_param("i", $id);
           $stmt->execute();
 
