@@ -1,16 +1,67 @@
 <?php
 
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 require $_SERVER['DOCUMENT_ROOT'] . '/connection.php';
 
 $stmt = $mysqli->stmt_init();
+
 $stmt->prepare("SELECT * FROM products");
 $stmt->execute();
-
 $results = $stmt->get_result();
-// $products = $results->fetch_assoc();
 $products = $results->fetch_all(MYSQLI_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+  if (!isset($_SESSION['user']['id'])) {
+    header('Location: /signin');
+    exit();
+  }
+
+  $product_id = $_POST['product_id'];
+
+  $stmt->prepare("SELECT DISTINCT(productId) FROM user_products WHERE userId = ?");
+  $stmt->bind_param("i", $_SESSION['user']['id']);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $users = $result->fetch_all(MYSQLI_NUM);
+
+  $productsIds = array();
+  $counter = 0;
+  for ($i = 0; $i <= count($users); $i++) {
+    if (in_array($product_id, $users[$i])) {
+      $productsIds[$counter] = $users[$i][0];
+      $counter++;
+    }
+  }
+
+  if (in_array($product_id, $productsIds)) {
+    echo "<script>alert('Ya tiene el producto en favoritos');</script>";
+  } else {
+    $stmt->prepare("INSERT INTO user_products(userId, productId) VALUES(?, ?)");
+    $stmt->bind_param("ii", $_SESSION['user']['id'], $product_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+      header('Location: /favorites');
+      exit();
+    }
+  }
+}
+
+$search = $_GET['search'];
+
+if (!empty($search)) {
+  $stmt->prepare("SELECT * FROM products WHERE name LIKE '%$search%'");
+  // $stmt->bind_param('s', $search);
+  $stmt->execute();
+  $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+$stmt->close();
+$mysqli->close();
 
 ?>
 
@@ -996,23 +1047,28 @@ $products = $results->fetch_all(MYSQLI_ASSOC);
         <p class="description">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis nesciunt animi recusandae ullam temporibus tenetur eos? Deserunt quas possimus eum?
         </p>
-        <a class="btn btn-primary">
+        <a href="#products" class="btn btn-primary">
           Navegar
         </a>
       </div>
     </div>
   </main>
-  <section class="products">
+  <section class="products" id="products">
     <div class="products__container">
       <div class="heading">
         <h2 class="title">Tienda</h2>
-        <?php if (isset($_SESSION['user']) && $_SESSION['user']['isAdmin']) : ?>
-          <div class="admin-options">
-            <button type="button" class="btn btn-icon">
+        <div class="options">
+          <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['isAdmin']) : ?>
+            <a href="/admin" class="btn btn-icon">
               <i class="icon fa fa-plus"></i>
-            </button>
-          </div>
-        <?php endif; ?>
+            </a>
+          <?php endif; ?>
+          <?php if (isset($search)) : ?>
+            <a href="/" class="btn btn-primary">
+              Eliminar filtros
+            </a>
+          <?php endif; ?>
+        </div>
       </div>
       <div class="body">
         <?php if (count($products) > 0) : ?>
@@ -1030,10 +1086,13 @@ $products = $results->fetch_all(MYSQLI_ASSOC);
                     <?php echo $product['price'] ?> $
                   </h3>
                   <!-- <span class="stock">4</span> -->
-                  <a href="/delete-product/<?php echo $product['id'] ?>" class="btn btn-primary btn-full">
-                    <i class="icon fa fa-heart"></i>
-                    Agregar a favoritos
-                  </a>
+                  <form action="/" method="POST">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id'] ?>">
+                    <button type="submit" class="btn btn-primary btn-full">
+                      <i class="icon fa fa-heart"></i>
+                      Agregar a favoritos
+                    </button>
+                  </form>
                 </div>
               </article>
             <?php } ?>

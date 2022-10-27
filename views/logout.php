@@ -2,7 +2,7 @@
 
 // session_start();
 
-if(empty($_SESSION['user'])) {
+if(empty($_SESSION['user']['id'])) {
   header('Location: /signin');
   exit();
 }

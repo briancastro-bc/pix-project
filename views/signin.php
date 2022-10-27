@@ -2,44 +2,50 @@
 
 require $_SERVER['DOCUMENT_ROOT'] . '/connection.php';
 
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 
-if (!empty($_SESSION['user'])) {
+if (!empty($_SESSION['user']['id'])) {
   header('Location: /');
   exit();
 }
 
 $message = "";
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-if (!empty($email) && !empty($password)) {
-  
-  $stmt = $mysqli->stmt_init();
-  $stmt->prepare("SELECT * FROM users WHERE email = ?");
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
+  if (!empty($email) && !empty($password)) {
+    
+    $stmt = $mysqli->stmt_init();
+    $stmt->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
-  $result = $stmt->get_result();
-  $user = $result->fetch_assoc();
-
-  if($user) {
-    if(password_verify($password, $user['password'])) {
-      $isAdmin = $user['isAdmin'] > 0 ? true : false;
-      $_SESSION['user']['id'] = $user['id'];
-      $_SESSION['user']['isAdmin'] = $isAdmin;
-      $_SESSION['user']['email'] = $user['email'];
-      $_SESSION['user']['fullname'] = $user['fullname'];
-      header('Location: /');
-      exit();
+    if($user) {
+      if(password_verify($password, $user['password'])) {
+        $isAdmin = $user['isAdmin'] > 0 ? true : false;
+        $_SESSION['user']['id'] = $user['id'];
+        $_SESSION['user']['isAdmin'] = $isAdmin;
+        $_SESSION['user']['email'] = $user['email'];
+        $_SESSION['user']['fullname'] = $user['fullname'];
+        header('Location: /');
+        exit();
+      } else {
+        $message = "La contraseña es incorrecta";
+      }
     } else {
-      $message = "La contraseña es incorrecta";
+      $message = "El usuario no está registrado";
     }
   } else {
-    $message = "El usuario no está registrado";
+    $message = "Rellene los campos";
   }
 }
+
 
 ?>
 

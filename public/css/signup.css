@@ -48,12 +48,12 @@
   gap: .5rem;
 }
 
-.header h2 {
+.signup-card .header h2 {
   font-size: 1.35rem;
   color: #00000090;
 }
 
-.header .error-message {
+.signup-card .header .error-message {
   width: 100%;
   font-size: 14px;
   padding: .5rem 1.5rem;

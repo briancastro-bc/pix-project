@@ -1,0 +1,118 @@
+
+.admin-products {
+  /* height: calc(100vh - 90px); */
+  height: 70vh;
+  width: 100%;
+}
+
+.admin-products .container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: calc(40% - .5rem) calc(60% - .5rem);
+  grid-template-rows: unset;
+  gap: 1rem;
+  align-items: center;
+  padding: 0 3rem;
+}
+
+.admin-products .container .col {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-products .container .col__left .create-card {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 400px;
+  max-width: 600px;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  border: 1px solid var(--dark-alt-color);
+  background-color: #ffffff;
+  box-shadow: 0px 0px 20px -10px rgba(0,0,0,0.62);
+}
+
+.create-card .header {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.create-card .header h2 {
+  font-size: 1.35rem;
+  color: #00000090;
+}
+
+.create-card .header .error-message {
+  width: 100%;
+  font-size: 14px;
+  padding: .5rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--dark-alt-color);
+  color: white;
+  background-color: var(--primary-color);
+}
+
+.create-card .body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #00000010;
+}
+
+.create-card .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: .85rem 0;
+}
+
+.admin-products .container .col__right {
+  overflow: hidden;
+}
+
+.admin-products .container .col__right .wrapper {
+  width: 100%;
+  height: 100%;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #fff;
+  border-radius: 15px;
+  border: 1px solid var(--dark-alt-color);
+  overflow-y: auto;
+}
+
+.admin-products .container .col__right .wrapper .wrapper-element {
+  width: 100%;
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+.col__right .wrapper .wrapper-element div {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.col__right .wrapper .wrapper-element .actions {
+  flex-grow: 0;
+}

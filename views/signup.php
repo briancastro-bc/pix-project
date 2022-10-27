@@ -2,51 +2,58 @@
 
 require $_SERVER['DOCUMENT_ROOT'] . '/connection.php';
 
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 
-if (!empty($_SESSION['user'])) {
+if (!empty($_SESSION['user']['id'])) {
   header('Location: /');
   exit();
 }
 
 $message = "";
 
-$fullname = $_POST['fullname'];
-$dni = $_POST['dni'];
-$numberPhone = $_POST['numberPhone'];
-$email = $_POST['email'];
-$password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $fullname = $_POST['fullname'];
+  $dni = $_POST['dni'];
+  $numberPhone = $_POST['numberPhone'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-if (!empty($fullname) && !empty($dni) && !empty($numberPhone) && !empty($email) && !empty($password)) {
+  if (!empty($fullname) && !empty($dni) && !empty($numberPhone) && !empty($email) && !empty($password)) {
 
-  $stmt = $mysqli->stmt_init();
+    $stmt = $mysqli->stmt_init();
 
-  try {
-    $stmt->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->bind_result($result);
-
-    if (!$stmt->fetch()) {
-      $hashPassword = password_hash($password, PASSWORD_BCRYPT);
-      $stmt->prepare("INSERT INTO users (fullname, dni, numberPhone, email, password) VALUES(?, ?, ?, ?, ?)");
-      $stmt->bind_param("sssss", $fullname, $dni, $numberPhone, $email, $hashPassword);
+    try {
+      $stmt->prepare("SELECT * FROM users WHERE email = ?");
+      $stmt->bind_param("s", $email);
       $stmt->execute();
 
-      if ($stmt->affected_rows >= 1) {
-        header('Location: /signin');
-      }
-    } else {
-      $message = "El correo electrónico ya existe";
-    }
+      if (!$stmt->fetch()) {
+        $hashPassword = password_hash($password, PASSWORD_BCRYPT);
+        $stmt->prepare("INSERT INTO users (fullname, dni, numberPhone, email, password) VALUES(?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $fullname, $dni, $numberPhone, $email, $hashPassword);
+        $stmt->execute();
 
-    $stmt->close();
-  } catch (Exception $e) {
-    $message = "Algo salio mal";
-  } finally {
-    $mysqli->close();
+        if ($stmt->affected_rows >= 1) {
+          header('Location: /signin');
+          exit();
+        }
+      } else {
+        $message = "El correo electrónico ya existe";
+      }
+
+      $stmt->close();
+    } catch (Exception $e) {
+      $message = "Algo salio mal";
+    } finally {
+      $mysqli->close();
+    }
+  } else {
+    $message = "Los datos deben ser rellenados";
   }
 }
+
 
 ?>
 

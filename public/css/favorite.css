@@ -1,0 +1,113 @@
+
+.favorites {
+  width: 100%;
+  height: 100%;
+}
+
+.favorites .favorites__container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 3rem;
+  margin-top: 1.5rem;
+  gap: 2rem;
+}
+
+.favorites__container .heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.favorites__container .body {
+  width: 100%;
+  height: 100%;
+  /* max-width: 1366px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.favorites__container .body .wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.favorites__container .body .wrapper .product-card {
+  flex: 1 1 25%;
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 15px;
+  border: 1px solid var(--dark-alt-color);
+  box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.62);
+}
+
+.favorites__container .body .wrapper .product-card .header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 40%;
+  border-radius: inherit;
+  background-color: #00000010;
+}
+
+.favorites__container .body .wrapper .product-card .header .product-img {
+  position: absolute;
+  top: -20px;
+  margin-left: auto;
+  margin-right: auto;
+  /* transform: translate(50%, -50%); */
+  height: 200px;
+  width: 200px;
+  /* min-width: 130px; */
+  object-fit: contain;
+  background-color: #fff;
+  border: 2.5px solid var(--dark-color);
+  border-radius: 50%;
+}
+
+.favorites__container .body .wrapper .product-card .content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  text-align: center;
+  justify-content: flex-start;
+  gap: .25rem;
+  padding: 2.5rem 1.5rem;
+}
+
+.favorites__container .body .wrapper .product-card .content .name {
+  font-size: 1.85rem;
+  font-weight: 1000;
+  color: var(--dark-color);
+}
+
+.favorites__container .body .wrapper .product-card .content .price {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.favorites__container .body .wrapper .product-card .content form {
+  margin-top: auto;
+}
+
+.favorites__container .body .no-products {
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
