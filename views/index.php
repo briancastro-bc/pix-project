@@ -32,12 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $counter = 0;
   for ($i = 0; $i <= count($users); $i++) {
     if (in_array($product_id, $users[$i])) {
-      $productsIds[$counter] = $users[$i][0];
+      // $productsIds[$counter] = $users[$i][0];
+      array_push($productsIds, $users[$i][0]);
       $counter++;
     }
   }
 
-  if (in_array($product_id, $productsIds)) {
+  if (count($productsIds) > 0 && in_array($product_id, $productsIds)) {
     echo "<script>alert('Ya tiene el producto en favoritos');</script>";
   } else {
     $stmt->prepare("INSERT INTO user_products(userId, productId) VALUES(?, ?)");
